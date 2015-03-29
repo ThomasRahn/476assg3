@@ -2,11 +2,10 @@
 using System.Collections;
 
 public class GameController : MonoBehaviour {
-	bool ready = false;
 	Graph g;
 	// Use this for initialization
 	void Start () {
-		StartCoroutine (GenerateGraph ());
+
 	}
 	
 	// Update is called once per frame
@@ -14,11 +13,10 @@ public class GameController : MonoBehaviour {
 		
 	}
 
-	IEnumerator GenerateGraph()
+	public void GenerateGraph()
 	{
 		g = new Graph ();
-		yield return null;
-		ready = true;
+		GameObject.FindGameObjectWithTag ("Menu").SetActive (false);
 	}
 }
 

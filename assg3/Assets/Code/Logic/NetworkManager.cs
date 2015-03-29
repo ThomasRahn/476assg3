@@ -8,14 +8,21 @@ public class NetworkManager : MonoBehaviour {
 	{
 		Debug.Log ("Server Start");
 		Network.Instantiate (Resources.Load ("Prefabs/Cylinder"), Vector3.zero, Quaternion.identity,0);
-		GameObject.FindGameObjectWithTag ("Menu").SetActive (false);
+		GameObject.FindGameObjectWithTag ("GameController").GetComponent<GameController> ().GenerateGraph ();
 	}
 
 	void OnPlayerConnected(NetworkPlayer player)
 	{
 		Debug.Log ("Player has connected" + player.ipAddress);
-		Network.Instantiate (Resources.Load ("Prefabs/Cylinder"), new Vector3(3,0,3), Quaternion.identity,0);
-		GameObject.FindGameObjectWithTag ("Menu").SetActive (false);
 	}
-	
+
+	void OnConnectedToServer()
+	{
+		Network.Instantiate (Resources.Load ("Prefabs/Cylinder"), new Vector3(3,0,3), Quaternion.identity,0);
+		GameObject.FindGameObjectWithTag ("GameController").GetComponent<GameController> ().GenerateGraph ();
+	}
+
+	void OnFailedToConnect(NetworkConnectionError error) {
+		Debug.Log("Could not connect to server: " + error);
+	}
 }
