@@ -5,7 +5,8 @@ public class GameController : MonoBehaviour {
 	Graph g;
 	// Use this for initialization
 	void Start () {
-
+		//GameObject.FindGameObjectWithTag ("Menu").SetActive (false);
+		g = new Graph ();
 	}
 	
 	// Update is called once per frame
@@ -15,7 +16,6 @@ public class GameController : MonoBehaviour {
 
 	public void GenerateGraph()
 	{
-		g = new Graph ();
 		GameObject.FindGameObjectWithTag ("Menu").SetActive (false);
 	}
 }

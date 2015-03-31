@@ -4,11 +4,11 @@ using System.Collections.Generic;
 
 public class Graph {
 	
-	const float TILE_SIZE = 0.5f;
+	const float TILE_SIZE = 1.0f;
 	public List<Edge> edges = new List<Edge>();
 	public List<Node> nodes = new List<Node>();
 
-	public static Vector3 originPosition = new Vector3 (0f, 0, -0.6f);
+	public static Vector3 originPosition = new Vector3 (0f, 0, -0.3f);
 	// Use this for initialization
 	public Graph (bool PointOfView = false) {
 		if(!PointOfView)
