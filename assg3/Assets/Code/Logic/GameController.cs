@@ -5,7 +5,6 @@ public class GameController : MonoBehaviour {
 	Graph g;
 	// Use this for initialization
 	void Start () {
-		//GameObject.FindGameObjectWithTag ("Menu").SetActive (false);
 		g = new Graph ();
 	}
 	
