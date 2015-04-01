@@ -6,9 +6,9 @@ public class NetworkManager : MonoBehaviour {
 
 	void OnServerInitialized()
 	{
-		Debug.Log ("Server Start");
-		Network.Instantiate (Resources.Load ("Prefabs/Cylinder"), Vector3.zero, Quaternion.identity,0);
+		GameObject player = Network.Instantiate (Resources.Load ("Prefabs/Cylinder"), GameObject.Find("CreatorSpawn").transform.position, Quaternion.identity,0) as GameObject;
 		GameObject.FindGameObjectWithTag ("GameController").GetComponent<GameController> ().GenerateGraph ();
+		player.GetComponent<PlayerMovement> ().hasControl = true;
 	}
 
 	void OnPlayerConnected(NetworkPlayer player)
@@ -18,11 +18,9 @@ public class NetworkManager : MonoBehaviour {
 
 	void OnConnectedToServer()
 	{
-		Network.Instantiate (Resources.Load ("Prefabs/Cylinder"), new Vector3(3,0,3), Quaternion.identity,0);
+		GameObject player = Network.Instantiate (Resources.Load ("Prefabs/Cylinder"), GameObject.Find("JoinSpawn").transform.position, Quaternion.identity,0) as GameObject;
 		GameObject.FindGameObjectWithTag ("GameController").GetComponent<GameController> ().GenerateGraph ();
+		player.GetComponent<PlayerMovement> ().hasControl = true;
 	}
-
-	void OnFailedToConnect(NetworkConnectionError error) {
-		Debug.Log("Could not connect to server: " + error);
-	}
+	
 }

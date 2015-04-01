@@ -54,6 +54,7 @@
      <Compile Include="Assets\Code\Logic\MainMenu.cs" />
      <Compile Include="Assets\Code\Logic\NetworkManager.cs" />
      <Compile Include="Assets\Code\Scripts\NPCMovement.cs" />
+     <Compile Include="Assets\Code\Scripts\PlayerMovement.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files (x86)/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/4.6.2/UnityEngine.UI.dll</HintPath>
  </Reference>

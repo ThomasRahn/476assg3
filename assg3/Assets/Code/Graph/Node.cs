@@ -93,4 +93,33 @@ public class Node {
 	{
 		this.cost = Vector3.Distance (position, Graph.originPosition);
 	}
+
+	public Node hasDirectionNode(PlayerMovement.MovementDirection dir)
+	{
+		switch (dir) {
+		case PlayerMovement.MovementDirection.up:
+			return GetNode (this.position + new Vector3(0,0,1.0f));
+			break;
+		case PlayerMovement.MovementDirection.left:
+			return GetNode (this.position + new Vector3(-1.0f,0,0));
+			break;
+		case PlayerMovement.MovementDirection.down:
+			return GetNode (this.position + new Vector3(0,0,-1.0f));
+			break;
+		case PlayerMovement.MovementDirection.right:
+			return GetNode (this.position + new Vector3(1.0f,0,0));
+			break;
+		}
+
+		return null;
+	}
+	private Node GetNode(Vector3 pos)
+	{
+		foreach (Node n in getAllConnectingNodes()) {
+			if(n.position == pos)
+				return n;
+		}
+		return null;
+	}
+
 }

@@ -2,20 +2,27 @@
 using System.Collections;
 
 public class GameController : MonoBehaviour {
-	Graph g;
+	public static int score = 0;
 	// Use this for initialization
+	public static Graph graph;
 	void Start () {
-		g = new Graph ();
+		GameController.graph = new Graph();
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		
+		//Set Score here
+
 	}
 
 	public void GenerateGraph()
 	{
 		GameObject.FindGameObjectWithTag ("Menu").SetActive (false);
+	}
+
+	public static void IncreaseScore()
+	{
+		score++;
 	}
 }
 

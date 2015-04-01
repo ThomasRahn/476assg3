@@ -7,12 +7,7 @@ public class ObjectCreator : MonoBehaviour {
 	{
 		
 		GameObject node = Instantiate(Resources.Load("Prefabs/Node"), position, Quaternion.identity)as GameObject;
-		//node.GetComponent<GraphElement> ().setNode (n);
-		if (position == Graph.originPosition) {
-			node.transform.FindChild ("Cube").renderer.material.color = Color.red;
-		} else {
-			node.transform.FindChild ("Cube").renderer.material.color = Color.yellow;
-		}
+		node.transform.FindChild ("Cube").renderer.material.color = Color.white;
 		return node;
 	}
 	

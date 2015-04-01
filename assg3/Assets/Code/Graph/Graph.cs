@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class Graph {
-	
 	const float TILE_SIZE = 1.0f;
 	public List<Edge> edges = new List<Edge>();
 	public List<Node> nodes = new List<Node>();
@@ -20,7 +19,7 @@ public class Graph {
 		float cost = Vector3.Distance (e.end.position, Graph.originPosition);
 		e.setCost(cost);
 		edges.Add (e);
-		ObjectCreator.makeLine (e.start.position, e.end.position);
+		//ObjectCreator.makeLine (e.start.position, e.end.position);
 	}
 	
 	public void addNode(Node n)
@@ -35,6 +34,23 @@ public class Graph {
 				return n;
 		}
 		return null;
+	}
+
+	public Node FindClosestNode(Vector3 position)
+	{
+		Node closest = null;
+		float distance = -1;
+		foreach (Node n in nodes) {
+			if(distance < 0){
+				closest = n;
+				distance = Vector3.Distance(position,n.position);
+			}
+			if(Vector3.Distance(position,n.position) < distance){
+				closest = n;
+				distance = Vector3.Distance(position,n.position);
+			}
+		}
+		return closest;
 	}
 	
 	public void CreateEdgeFromOldNode(Node n, Vector3 position)
