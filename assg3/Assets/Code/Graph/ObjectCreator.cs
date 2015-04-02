@@ -5,9 +5,13 @@ public class ObjectCreator : MonoBehaviour {
 
 	public static GameObject makeBlock(Vector3 position, Node n)
 	{
-		
+
 		GameObject node = Instantiate(Resources.Load("Prefabs/Node"), position, Quaternion.identity)as GameObject;
 		node.transform.FindChild ("Cube").renderer.material.color = Color.white;
+		if (position.z > -4.5 && position.z < 3.5 && position.x > -3.75 && position.x < 3.75) {
+			node.transform.FindChild ("Cube").gameObject.renderer.enabled = false;
+		}
+		
 		return node;
 	}
 	

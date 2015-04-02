@@ -96,19 +96,20 @@ public class Node {
 
 	public Node hasDirectionNode(PlayerMovement.MovementDirection dir)
 	{
-		switch (dir) {
-		case PlayerMovement.MovementDirection.up:
-			return GetNode (this.position + new Vector3(0,0,1.0f));
-			break;
-		case PlayerMovement.MovementDirection.left:
+		if (dir == PlayerMovement.MovementDirection.up) {
+			return GetNode (this.position + new Vector3 (0, 0, 1.0f));
+		}
+
+		if (dir == PlayerMovement.MovementDirection.left) {
 			return GetNode (this.position + new Vector3(-1.0f,0,0));
-			break;
-		case PlayerMovement.MovementDirection.down:
+		}
+
+		if (dir == PlayerMovement.MovementDirection.down) {
 			return GetNode (this.position + new Vector3(0,0,-1.0f));
-			break;
-		case PlayerMovement.MovementDirection.right:
+		}
+
+		if (dir == PlayerMovement.MovementDirection.right) {
 			return GetNode (this.position + new Vector3(1.0f,0,0));
-			break;
 		}
 
 		return null;

@@ -9,6 +9,7 @@ public class NetworkManager : MonoBehaviour {
 		GameObject player = Network.Instantiate (Resources.Load ("Prefabs/Cylinder"), GameObject.Find("CreatorSpawn").transform.position, Quaternion.identity,0) as GameObject;
 		GameObject.FindGameObjectWithTag ("GameController").GetComponent<GameController> ().GenerateGraph ();
 		player.GetComponent<PlayerMovement> ().hasControl = true;
+		player.GetComponent<PlayerMovement> ().isPlayerOne = true;
 	}
 
 	void OnPlayerConnected(NetworkPlayer player)
