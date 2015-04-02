@@ -25,12 +25,9 @@ public class PlayerMovement : MonoBehaviour {
 			Node next = currentNode.hasDirectionNode (direction);
 			if (next != null) {
 				this.transform.position = Vector3.MoveTowards (this.transform.position, next.position, 4.0f * Time.deltaTime);
-				Vector3 targetDir = next.position - this.transform.position;
-				transform.rotation = Quaternion.LookRotation(targetDir);
 			} else {
 				this.transform.position = Vector3.MoveTowards (this.transform.position, currentNode.position, 4.0f * Time.deltaTime);
-				Vector3 targetDir = currentNode.position - this.transform.position;
-				transform.rotation = Quaternion.LookRotation(targetDir);
+
 			}
 			
 		}
@@ -39,16 +36,20 @@ public class PlayerMovement : MonoBehaviour {
 
 	private void KeyInput()
 	{
-		if (Input.GetKeyDown (KeyCode.W) && canMove(transform.forward)) {
+		if (Input.GetKeyDown (KeyCode.W) && canMove(Vector3.forward)) {
 			direction = MovementDirection.up;
+			transform.rotation = Quaternion.LookRotation(Vector3.forward);
 		}
-		if (Input.GetKeyDown (KeyCode.A) && canMove(-transform.right)) {
+		if (Input.GetKeyDown (KeyCode.A) && canMove(-Vector3.right)) {
 			direction = MovementDirection.left;
+			transform.rotation = Quaternion.LookRotation(-Vector3.right);
 		}
-		if (Input.GetKeyDown (KeyCode.D) && canMove(transform.right)) {
+		if (Input.GetKeyDown (KeyCode.D) && canMove(Vector3.right)) {
 			direction = MovementDirection.right;
+			transform.rotation = Quaternion.LookRotation(Vector3.right);
 		}
-		if (Input.GetKeyDown (KeyCode.S) && canMove(-transform.forward)) {
+		if (Input.GetKeyDown (KeyCode.S) && canMove(-Vector3.forward)) {
+			transform.rotation = Quaternion.LookRotation(-Vector3.forward);
 			direction = MovementDirection.down;
 		}
 	}
@@ -56,7 +57,6 @@ public class PlayerMovement : MonoBehaviour {
 	private bool canMove(Vector3 dir)
 	{
 		return true;
-		//return Physics.Linecast (transform.position, dir, LayerMask.GetMask ("Wall")); 
 	}
 	void OnTriggerEnter(Collider col)
 	{

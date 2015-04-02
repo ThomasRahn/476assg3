@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using System.Collections.Generic;
 
 public class GameController : MonoBehaviour {
 	public static int p1score = 0;
@@ -10,6 +11,7 @@ public class GameController : MonoBehaviour {
 
 	public GameObject menu;
 	public GameObject scorePanel;
+
 
 	void Start () {
 		GameController.graph = new Graph();
@@ -39,5 +41,8 @@ public class GameController : MonoBehaviour {
 			GameObject.Find("Player2Score").GetComponent<Text>().text = "P2 Score: " + p1score;
 		}
 	}
+
+
+
 }
 

@@ -12,6 +12,7 @@ public class Graph {
 	public Graph (bool PointOfView = false) {
 		if(!PointOfView)
 			CreateNode(Graph.originPosition);
+	
 	}
 
 	public void addEdge(Edge e)
@@ -104,11 +105,11 @@ public class Graph {
 		
 		//Top-left
 		Vector3 topL= new Vector3(nodePosition.x - TILE_SIZE, 0,nodePosition.z + TILE_SIZE);
-		Generate (n, topL);
+		//Generate (n, topL);
 		
 		//Top-Right
 		Vector3 topR= new Vector3(nodePosition.x + TILE_SIZE, 0,nodePosition.z + TILE_SIZE);
-		Generate (n, topR);
+		//Generate (n, topR);
 		
 		//left
 		Vector3 left= new Vector3(nodePosition.x - TILE_SIZE, 0,nodePosition.z);
@@ -124,11 +125,11 @@ public class Graph {
 		
 		//bottom-left
 		Vector3 bottomL= new Vector3(nodePosition.x - TILE_SIZE, 0,nodePosition.z - TILE_SIZE);
-		Generate (n, bottomL);
+		//Generate (n, bottomL);
 		
 		//bottom-Right
 		Vector3 bottomR= new Vector3(nodePosition.x + TILE_SIZE, 0,nodePosition.z - TILE_SIZE);
-		Generate (n, bottomR);
+		//Generate (n, bottomR);
 
 	}
 

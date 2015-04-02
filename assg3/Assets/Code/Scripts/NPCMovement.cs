@@ -16,34 +16,38 @@ public class NPCMovement : MonoBehaviour {
 	public float rotateSpeed = 100.0f;
 
 	public int current_node = 0;
-	public Vector3 target_position;
-	// Use this for initialization
-	void Start () {
 
+	public IList<Node> open_list = new List<Node> ();
+	public IList<Node> closed_list = new List<Node> ();
+	public Node start;
+
+	public GameObject targetPlayer;
+	public Vector3 targetPosition = Vector3.zero;
+
+	void Start () {}
+
+	public void setTargetPlayer(GameObject player)
+	{
+		start = GameController.graph.FindClosestNode (this.transform.position);
+		targetPlayer = player;
+		targetPosition = player.transform.position;
+		euclidean ();
+		Debug.Log(path[0].position);
 	}
 
 	void Update()
 	{
 		Node target = getTarget();
 		if (target != null) {
-			target_position = target.position + new Vector3 (0, 1, 0);
-			nextNode = target;
+			this.transform.position = Vector3.MoveTowards (this.transform.position, target.position, 3.0f * Time.deltaTime);
+		} else {
+			path.Clear();
+			targetPosition = targetPlayer.transform.position;
+			start = GameController.graph.FindClosestNode (this.transform.position);
+			euclidean();
 
-			Vector3 accel = (MaxAcceleration) * (target_position - this.transform.position).normalized;
-		
-			Velocity = Velocity + accel * Time.deltaTime;
-		
-			Velocity = Vector3.ClampMagnitude (Velocity, MaxVelocity);
-
-			if(Vector3.Distance(Graph.originPosition + new Vector3(0,1,0),this.transform.position) < 0.75f)
-			{
-				Velocity = Vector3.Scale(Velocity, new Vector3(0.9f,0,0.9f));
-			}
-		
-			this.transform.position = this.transform.position + Velocity * Time.deltaTime;
 		}
-		if (Velocity.sqrMagnitude > 0f)
-			transform.rotation = Quaternion.LookRotation (Velocity.normalized, Vector3.up);
+		
 	}
 
 	private Node getTarget(){
@@ -55,7 +59,7 @@ public class NPCMovement : MonoBehaviour {
 				return null;
 
 			target = path[current_node];
-			Vector3 temp = target.position + new Vector3(0,1,0);
+			Vector3 temp = target.position;
 			if(Vector3.Distance(temp, this.transform.position) <= 0.2f)
 			{
 				current_node --;
@@ -63,5 +67,70 @@ public class NPCMovement : MonoBehaviour {
 			}
 		}
 		return target;
+	}
+
+	//Performs A* algorithm using euclidean distance to find the shortest path.
+	void euclidean()
+	{
+		open_list.Add (start);
+		start.prevNode = null;
+		start.heuristic = start.cost;
+		Node current_node = null;
+		while (open_list.Count != 0) 
+		{
+			current_node = GetLowerCost();
+			if(current_node == null)
+				break;
+			
+			open_list.Remove(current_node);
+			
+			if(current_node.position == targetPosition)
+			{
+				current_node.prevNode = closed_list[closed_list.Count - 1];
+				break;
+			}else{
+				foreach(Node node in current_node.getAllConnectingNodes())
+				{
+					
+					if(!open_list.Contains(node) && !closed_list.Contains(node))
+					{
+						node.prevNode = current_node;
+						node.heuristic = node.cost + current_node.heuristic;
+						open_list.Add(node);
+					}
+					else
+					{
+						if(node.heuristic > (node.cost + current_node.heuristic))
+						{
+							node.heuristic = node.cost + current_node.heuristic;
+						}
+					}
+				}
+				closed_list.Add(current_node);
+			}
+		}
+
+		int counter = 0;
+		while (current_node.prevNode != null && counter < 200) 
+		{
+			counter++;
+			path.Add(current_node);
+			current_node = current_node.prevNode;
+		}
+	}
+	
+	//Gets the best possible node with the lowest heuristic from the open list
+	private Node GetLowerCost()
+	{
+		if (open_list.Count == 0) {
+			return null;
+		}
+		Node node = open_list [0];
+		
+		/*foreach (Node n in open_list) {
+			if(n.heuristic < node.heuristic)
+				node = n;
+		}*/
+		return node;
 	}
 }
