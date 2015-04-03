@@ -30,22 +30,25 @@ public class NPCMovement : MonoBehaviour {
 	{
 		start = GameController.graph.FindClosestNode (this.transform.position);
 		targetPlayer = player;
-		targetPosition = player.transform.position;
-		euclidean ();
-		Debug.Log(path[0].position);
+		targetPosition = GameController.graph.FindClosestNode (targetPlayer.transform.position).position;
+		dijkstra ();
 	}
 
 	void Update()
 	{
-		Node target = getTarget();
-		if (target != null) {
-			this.transform.position = Vector3.MoveTowards (this.transform.position, target.position, 3.0f * Time.deltaTime);
-		} else {
-			path.Clear();
-			targetPosition = targetPlayer.transform.position;
-			start = GameController.graph.FindClosestNode (this.transform.position);
-			euclidean();
-
+		if(GameController.playersConnected && false)
+		{
+			Node target = getTarget();
+			if (target != null){// && Vector3.Distance(targetPosition, this.transform.position) > 0.2f) {
+				this.transform.position = Vector3.MoveTowards (this.transform.position, target.position, 3.0f * Time.deltaTime);
+			} else {
+				if(targetPlayer != null)
+				{
+					start = GameController.graph.FindClosestNode (this.transform.position);
+					targetPosition = GameController.graph.FindClosestNode (targetPlayer.transform.position).position;
+					dijkstra ();
+				}
+			}
 		}
 		
 	}
@@ -53,7 +56,8 @@ public class NPCMovement : MonoBehaviour {
 	private Node getTarget(){
 
 		Node target = null;
-		if (path.Count != 0 ) {
+		if (path.Count != 0 ) 
+		{
 			current_node = path.Count - 1;
 			if(current_node < 0)
 				return null;
@@ -118,6 +122,40 @@ public class NPCMovement : MonoBehaviour {
 			current_node = current_node.prevNode;
 		}
 	}
+
+	//Performs Dijkstra to find the shortest path. Null heuristic (no priority)
+	void dijkstra()
+	{
+		open_list.Clear ();
+		closed_list.Clear ();
+		open_list.Add (start);
+		while (open_list.Count > 0 && open_list[0].position != targetPosition) {
+			Node node = open_list [0];
+			Node[] neighborList = open_list [0].getAllConnectingNodes ();
+			for (int i = 0; i < neighborList.Length; i++) {
+				if (!closed_list.Contains (neighborList [i]) && !open_list.Contains (neighborList [i])) {
+					neighborList [i].prevNode = node;
+					open_list.Add (neighborList [i]);
+				}
+			}
+			closed_list.Add (node);
+			open_list.Remove (node);
+		}
+		if (open_list.Count > 0)
+		{
+			path.Add (open_list [0]);
+			while (true) {
+					
+				if (path [path.Count - 1].prevNode.position == start.position) {
+					path.Add (path [path.Count - 1].prevNode);
+					break;
+				} else {
+					path.Add (path [path.Count - 1].prevNode);
+				}
+			}
+		}
+	}
+
 	
 	//Gets the best possible node with the lowest heuristic from the open list
 	private Node GetLowerCost()
@@ -125,12 +163,18 @@ public class NPCMovement : MonoBehaviour {
 		if (open_list.Count == 0) {
 			return null;
 		}
-		Node node = open_list [0];
-		
-		/*foreach (Node n in open_list) {
-			if(n.heuristic < node.heuristic)
-				node = n;
-		}*/
-		return node;
+	
+		return  open_list [0];
+	}
+
+	void OnTriggerEnter(Collider col){
+		if(col.gameObject.CompareTag("Player")){
+			if(col.gameObject.GetComponent<PlayerMovement>().isPlayerOne)
+			{
+				col.gameObject.transform.position = GameObject.Find("CreatorSpawn").transform.position;
+			}else{
+				col.gameObject.transform.position = GameObject.Find("JoinSpawn").transform.position;
+			}
+		}
 	}
 }

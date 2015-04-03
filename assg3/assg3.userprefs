@@ -1,9 +1,14 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Code\Logic\NetworkManager.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Code\Graph\Graph.cs">
     <Files>
-      <File FileName="Assets\Code\Logic\NetworkManager.cs" Line="16" Column="3" />
-      <File FileName="Assets\Code\Scripts\NPCMovement.cs" Line="48" Column="4" />
+      <File FileName="Assets\Code\Logic\NetworkManager.cs" Line="28" Column="2" />
+      <File FileName="Assets\Code\Scripts\NPCMovement.cs" Line="34" Column="15" />
+      <File FileName="Assets\Code\Scripts\PlayerMovement.cs" Line="23" Column="21" />
+      <File FileName="Assets\Code\Logic\MainMenu.cs" Line="27" Column="3" />
+      <File FileName="Assets\Code\Logic\GameController.cs" Line="65" Column="72" />
+      <File FileName="Assets\Code\Graph\ObjectCreator.cs" Line="13" Column="4" />
+      <File FileName="Assets\Code\Graph\Graph.cs" Line="112" Column="24" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

@@ -16,15 +16,15 @@ public class MainMenu : MonoBehaviour {
 
 	public void StartServer()
 	{
-		Debug.Log(Network.InitializeServer (4, 35000, !Network.HavePublicAddress ()));
+		Network.InitializeServer (4, 35000, !Network.HavePublicAddress ());
 	}
 
 	public void JoinServer()
 	{
 		string ip = GameObject.Find("IPAdr").GetComponent<InputField>().text;
 		int port = int.Parse(GameObject.Find("Port").GetComponent<InputField>().text);
-		Debug.Log ("Joining");
-		Debug.Log(Network.Connect (ip, port));
+		Network.Connect (ip, port);
+		GameController.playersConnected = true;
 	}
 
 

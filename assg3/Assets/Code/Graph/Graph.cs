@@ -103,14 +103,15 @@ public class Graph {
 		Vector3 top = new Vector3(nodePosition.x, 0,nodePosition.z + TILE_SIZE);
 		Generate (n, top);
 		
-		//Top-left
+		/*//Top-left
 		Vector3 topL= new Vector3(nodePosition.x - TILE_SIZE, 0,nodePosition.z + TILE_SIZE);
 		//Generate (n, topL);
-		
+
 		//Top-Right
 		Vector3 topR= new Vector3(nodePosition.x + TILE_SIZE, 0,nodePosition.z + TILE_SIZE);
 		//Generate (n, topR);
-		
+		*/
+
 		//left
 		Vector3 left= new Vector3(nodePosition.x - TILE_SIZE, 0,nodePosition.z);
 		Generate (n, left);
@@ -122,7 +123,8 @@ public class Graph {
 		//bottom
 		Vector3 bottom = new Vector3(nodePosition.x, 0,nodePosition.z - TILE_SIZE);
 		Generate (n, bottom);
-		
+
+		/*
 		//bottom-left
 		Vector3 bottomL= new Vector3(nodePosition.x - TILE_SIZE, 0,nodePosition.z - TILE_SIZE);
 		//Generate (n, bottomL);
@@ -130,7 +132,7 @@ public class Graph {
 		//bottom-Right
 		Vector3 bottomR= new Vector3(nodePosition.x + TILE_SIZE, 0,nodePosition.z - TILE_SIZE);
 		//Generate (n, bottomR);
-
+		*/
 	}
 
 	public List<Node> GetRoomNodes(Node.Cluster cluster)

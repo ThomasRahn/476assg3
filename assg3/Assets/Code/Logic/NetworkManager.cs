@@ -14,10 +14,14 @@ public class NetworkManager : MonoBehaviour {
 		GameObject ghost = Network.Instantiate (Resources.Load ("Prefabs/Ghost"), Vector3.zero, Quaternion.identity, 0) as GameObject;
 		ghost.GetComponent<NPCMovement> ().setTargetPlayer (player);
 
+		networkView.RPC ("SetGhostTarget", RPCMode.Others, player.networkView.viewID, ghost.networkView.viewID);
+
 	}
 
 	void OnPlayerConnected(NetworkPlayer player)
 	{
+		GameController.InitializeScore ();
+		GameController.playersConnected = true;
 		Debug.Log ("Player has connected" + player.ipAddress);
 
 	}
@@ -28,8 +32,22 @@ public class NetworkManager : MonoBehaviour {
 		GameObject.FindGameObjectWithTag ("GameController").GetComponent<GameController> ().GenerateGraph ();
 		player.GetComponent<PlayerMovement> ().hasControl = true;
 
-		GameObject ghost = Network.Instantiate (Resources.Load ("Prefabs/Ghost"), GameObject.Find ("GhostSpawn").transform.position, Quaternion.identity, 0) as GameObject;
+		GameObject ghost = Network.Instantiate (Resources.Load ("Prefabs/Ghost"), Vector3.zero, Quaternion.identity, 0) as GameObject;
 		ghost.GetComponent<NPCMovement> ().setTargetPlayer (player);
+
+		GameController.InitializeScore ();
+		networkView.RPC ("SetGhostTarget", RPCMode.Others, player.networkView.viewID, ghost.networkView.viewID);
+	}
+
+	void OnPlayerDisconnected(NetworkPlayer player) {
+		Network.RemoveRPCs(player);
+		Network.DestroyPlayerObjects(player);
+	}
+	
+	[RPC]
+	void SetGhostTarget(NetworkViewID player, NetworkViewID ghost)
+	{
+		NetworkView.Find(ghost).gameObject.GetComponent<NPCMovement>().setTargetPlayer (NetworkView.Find(player).gameObject);
 	}
 	
 }
