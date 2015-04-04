@@ -12,6 +12,7 @@ public class GameController : MonoBehaviour {
 
 	public GameObject menu;
 	public GameObject scorePanel;
+	public GameObject statusPanel;
 
 
 	void Start () {
@@ -27,9 +28,15 @@ public class GameController : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		GameObject[] dots = GameObject.FindGameObjectsWithTag ("cube");
-
 		if (dots.Length == 0) {
-			Debug.Log("WInner!");
+			statusPanel.SetActive(true);
+			string winner = "No one... its a tie";
+			if(p1score > p2score)
+				winner = "PLAYER 1";
+			else if(p1score < p2score)
+				winner = "PLAYER 2";
+
+			GameObject.Find("Winner").GetComponent<Text>().text = "The winner is..... " + winner;
 		}
 	}
 
@@ -63,6 +70,8 @@ public class GameController : MonoBehaviour {
 	{
 		GameObject.Find("Player1Score").GetComponent<Text>().text = "P1 Score: " + score1;
 		GameObject.Find("Player2Score").GetComponent<Text>().text = "P2 Score: " + score2;
+		p1score = score1;
+		p2score = score2;
 	}
 
 	void AddSpecialNode(Vector3 node)

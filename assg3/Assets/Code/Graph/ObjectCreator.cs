@@ -10,6 +10,7 @@ public class ObjectCreator : MonoBehaviour {
 		node.transform.FindChild ("Cube").renderer.material.color = Color.white;
 		if (position.z > -4.5 && position.z < 3.5 && position.x > -3.75 && position.x < 3.75) {
 			node.transform.FindChild ("Cube").gameObject.renderer.enabled = false;
+			node.transform.FindChild ("Cube").gameObject.tag = "Untagged";
 		}
 		
 		return node;

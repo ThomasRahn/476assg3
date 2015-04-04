@@ -36,7 +36,7 @@ public class NPCMovement : MonoBehaviour {
 
 	void Update()
 	{
-		if(GameController.playersConnected)
+		if(GameController.playersConnected && false)
 		{
 			Node target = getTarget();
 			if (target != null){// && Vector3.Distance(targetPosition, this.transform.position) > 0.2f) {
