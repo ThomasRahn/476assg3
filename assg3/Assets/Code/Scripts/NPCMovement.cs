@@ -36,13 +36,13 @@ public class NPCMovement : MonoBehaviour {
 
 	void Update()
 	{
-		if(GameController.playersConnected && false)
+		if(GameController.playersConnected)
 		{
 			Node target = getTarget();
 			if (target != null){// && Vector3.Distance(targetPosition, this.transform.position) > 0.2f) {
 				this.transform.position = Vector3.MoveTowards (this.transform.position, target.position, 3.0f * Time.deltaTime);
 			} else {
-				if(targetPlayer != null)
+				if(targetPlayer != null && Vector3.Distance(targetPlayer.transform.position, this.transform.position) > 0.2f)
 				{
 					start = GameController.graph.FindClosestNode (this.transform.position);
 					targetPosition = GameController.graph.FindClosestNode (targetPlayer.transform.position).position;
@@ -168,7 +168,12 @@ public class NPCMovement : MonoBehaviour {
 	}
 
 	void OnTriggerEnter(Collider col){
+		Debug.Log (col.gameObject.name);
 		if(col.gameObject.CompareTag("Player")){
+			start = GameController.graph.FindClosestNode (this.transform.position);
+			targetPosition = Vector3.zero;
+			dijkstra ();
+
 			if(col.gameObject.GetComponent<PlayerMovement>().isPlayerOne)
 			{
 				col.gameObject.transform.position = GameObject.Find("CreatorSpawn").transform.position;

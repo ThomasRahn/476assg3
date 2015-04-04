@@ -24,6 +24,8 @@ public class NetworkManager : MonoBehaviour {
 		GameController.playersConnected = true;
 		Debug.Log ("Player has connected" + player.ipAddress);
 
+		networkView.RPC ("SetScore", RPCMode.Others);
+
 	}
 
 	void OnConnectedToServer()
@@ -35,6 +37,7 @@ public class NetworkManager : MonoBehaviour {
 		GameObject ghost = Network.Instantiate (Resources.Load ("Prefabs/Ghost"), Vector3.zero, Quaternion.identity, 0) as GameObject;
 		ghost.GetComponent<NPCMovement> ().setTargetPlayer (player);
 
+		GameController.playersConnected = true;
 		GameController.InitializeScore ();
 		networkView.RPC ("SetGhostTarget", RPCMode.Others, player.networkView.viewID, ghost.networkView.viewID);
 	}
@@ -48,6 +51,12 @@ public class NetworkManager : MonoBehaviour {
 	void SetGhostTarget(NetworkViewID player, NetworkViewID ghost)
 	{
 		NetworkView.Find(ghost).gameObject.GetComponent<NPCMovement>().setTargetPlayer (NetworkView.Find(player).gameObject);
+	}
+
+	[RPC]
+	void SetScore()
+	{
+		GameController.InitializeScore ();
 	}
 	
 }

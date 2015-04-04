@@ -30,11 +30,8 @@ public class PlayerMovement : MonoBehaviour {
 			} else {
 				this.transform.position = Vector3.MoveTowards (this.transform.position, currentNode.position, speed * Time.deltaTime);
 				//this.rigidbody.velocity = (currentNode.position - this.transform.position).normalized * 4.0f;
-
 			}
-			
 		}
-		
 	}
 
 	private void KeyInput()
@@ -52,8 +49,8 @@ public class PlayerMovement : MonoBehaviour {
 			transform.rotation = Quaternion.LookRotation(Vector3.right);
 		}
 		if (Input.GetKeyDown (KeyCode.S) && canMove(MovementDirection.down)) {
-			transform.rotation = Quaternion.LookRotation(-Vector3.forward);
 			direction = MovementDirection.down;
+			transform.rotation = Quaternion.LookRotation(-Vector3.forward);
 		}
 	}
 
@@ -71,7 +68,10 @@ public class PlayerMovement : MonoBehaviour {
 				StartCoroutine(ResetSpeed());
 			}
 			Destroy(col.gameObject);
-			GameController.IncreaseScore(isPlayerOne);
+
+			if(Network.isServer)
+				GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>().IncreaseScore(isPlayerOne);
+
 			this.GetComponent<AudioSource>().Play();
 		}
 	}
